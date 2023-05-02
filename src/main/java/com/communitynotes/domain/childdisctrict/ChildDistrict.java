@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "childdistricts")
-public class ChildDistricts {
+public class ChildDistrict {
     @Id
     private int id;
 
@@ -19,6 +19,5 @@ public class ChildDistricts {
     @JoinColumn(name = "parent_id")
     private MainDistrict mainDistrict;
 
-    // getters and setters
 }
 
