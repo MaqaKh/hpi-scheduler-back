@@ -19,19 +19,9 @@ public class HomeController {
     @Autowired
     Statistics apartmentStatistics;
 
-    @GetMapping("high")
-    public Double high() throws IOException {
+    @GetMapping("mark")
+    public void tirggerStatisticsForMarks() throws IOException {
         statisticsScheduler.runStatisticsFor1RoomApartments();
-       return apartmentStatistics.highestPricePerSquareOf1room();
     }
-    @GetMapping("low")
-    public Double low() throws IOException {
-        return apartmentStatistics.lowestPricePerSquareOf1room();
-    }
-    @GetMapping("average")
-    public double average() throws IOException {
-        return apartmentStatistics.averagePricePerSquareOf1room();
-    }
-
 
 }

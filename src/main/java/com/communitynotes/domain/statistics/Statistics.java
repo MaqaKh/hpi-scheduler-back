@@ -39,9 +39,12 @@ public class Statistics {
     private boolean hasBillOfSale;
 
     @Column(name = "childdistrictid")
-    private int childDistrictId;
+    private Integer childDistrictId;
 
-    public Statistics(double highest, double lowest, double average, int roomNum, boolean hasRepair, boolean hasBillOfSale, int childDistrictId) {
+    @Column(name = "mark_id")
+    private Integer markId;
+
+    public Statistics(double highest, double lowest, double average, int roomNum, boolean hasRepair, boolean hasBillOfSale, Integer childDistrictId, Integer markId) {
         this.id = UUID.randomUUID().toString();
         this.highest = highest;
         this.lowest = lowest;
@@ -51,5 +54,14 @@ public class Statistics {
         this.hasRepair = hasRepair;
         this.hasBillOfSale = hasBillOfSale;
         this.childDistrictId = childDistrictId;
+        this.markId=markId;
+    }
+
+    public static Statistics ofChildDistrict(double highest, double lowest, double average, int roomNum, boolean hasRepair, boolean hasBillOfSale, int childDistrictId){
+        return new Statistics(highest,lowest,average,roomNum,hasRepair,hasBillOfSale,childDistrictId,null);
+    }
+
+    public static Statistics ofMark(double highest, double lowest, double average, int roomNum, boolean hasRepair, boolean hasBillOfSale, int markId){
+        return new Statistics(highest,lowest,average,roomNum,hasRepair,hasBillOfSale,null,markId);
     }
 }
