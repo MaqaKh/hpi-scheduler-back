@@ -11,7 +11,7 @@ import java.io.IOException;
 public class AdUseCase {
     private final Scrapper scrapper;
 
-    public void fetchAdById(String id) throws IOException {
-        scrapper.findSingleApartment(id); //"3586033"
+    public AdResponse fetchAdById(String id) throws IOException {
+        return scrapper.findSingleApartment(id); //"3586033"
     }
 }

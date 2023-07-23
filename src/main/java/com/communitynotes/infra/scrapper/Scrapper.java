@@ -58,6 +58,40 @@ public class Scrapper {
         return prices;
     }
 
+    public List<Double> findPricesForSuburbanAreas(String region, String room, String hasRepair, String hasBillOfSale) throws IOException {
+        String url;
+            url =
+                    String.format("https://bina.az/%s/alqi-satqi/menziller/%s-otaqli?floor_first=false&floor_last=false&has_bill_of_sale=%s&has_repair=%s",
+                            region, room, hasRepair, hasBillOfSale);
+
+        log.info("About to scrap url {}", url);
+
+        Document doc = Jsoup.connect(url).get();
+
+        Elements cardParams = doc.select("div.items-i");
+        List<Double> prices = new ArrayList<>();
+        for (Element cardParam : cardParams) {
+            String id = cardParam.attr("data-item-id");
+
+            Element priceVal = cardParam.selectFirst("span.price-val");
+            String priceText = priceVal.text().replaceAll("\\s+", "");
+
+            Element areaLi = cardParam.select("ul.name li:nth-child(2)").first();
+            String areaText = areaLi.text().replaceAll("\\s+", "");
+
+            double price = Double.parseDouble(priceText);
+            double area = Double.parseDouble(areaText.substring(0, areaText.length() - 2));
+
+            double pricePerSqM = price / area;
+
+            prices.add(pricePerSqM);
+            log.info(" Price per sqm: " + pricePerSqM + " " + id);
+        }
+        Collections.sort(prices);
+        return prices;
+    }
+
+
     public static List<ProductProperties> extractLabelValuePairs(Document doc) {
 
         List<ProductProperties> productProperties = new ArrayList<>();
@@ -78,27 +112,13 @@ public class Scrapper {
         var url = String.format("https://bina.az/items/%s", number);
         var doc = Jsoup.connect(url).get();
 
-
         var productProperties = extractLabelValuePairs(doc);
-        System.out.println(productProperties);
-
         var imgs = extractImageSrcByClassName(doc);
-        System.out.println(imgs);
-
         var subImgs= extractSubImageSrcByClassName(url);
-        System.out.println(subImgs);
-
         var description = extractDescription(doc);
-        System.out.println(description);
-
         var stats = extractStats(doc);
-        System.out.println(stats);
-
         var prices = extractPrice(doc);
-        System.out.println(prices);
-
         var districts = extractListValues(doc);
-        System.out.println(districts);
 
         return new AdResponse(productProperties, imgs, subImgs, description, stats, prices, districts);
     }

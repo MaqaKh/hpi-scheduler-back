@@ -1,6 +1,8 @@
 package com.communitynotes.usecase.stats;
 
 import com.communitynotes.Statistics;
+import com.communitynotes.infra.job.StatiscticsRegionScheduler;
+import com.communitynotes.infra.job.StatisticsCleanerScheduler;
 import com.communitynotes.infra.job.StatisticsScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,17 @@ public class HomeController {
     StatisticsScheduler statisticsScheduler;
 
     @Autowired
+    StatisticsCleanerScheduler cleanerScheduler;
+
+    @Autowired
     Statistics apartmentStatistics;
+
+    @Autowired
+    StatiscticsRegionScheduler regionScheduler;
 
     @GetMapping("mark")
     public void tirggerStatisticsForMarks() throws IOException {
-        statisticsScheduler.runStatisticsFor1RoomApartments();
+        regionScheduler.runStatisticsFor1RoomApartmentsNotRepaired();
     }
 
 }
