@@ -15,4 +15,4 @@ COPY --from=build /home/app/build/libs/communitynotes-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8081
 
 # Run the jar file
-ENTRYPOINT ["java","-jar","/app/app.jar", "--spring.profiles.active=dev"] 
+ENTRYPOINT ["java","-jar","/app/app.jar", "--spring.profiles.active=prod"]

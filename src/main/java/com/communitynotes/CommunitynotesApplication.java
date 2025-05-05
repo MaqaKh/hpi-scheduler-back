@@ -10,6 +10,6 @@ public class CommunitynotesApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CommunitynotesApplication.class, args);
-    }
+    }   
 
 }
